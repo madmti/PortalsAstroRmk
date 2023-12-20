@@ -1,0 +1,160 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LoginSubmitter from '@/components/LogReg/LoginSubmitter';
+---
+
+
+<Layout title="Login">
+    <a id="ret" href="/">
+        <img src="/return.svg" width="20" height="20" alt="">
+        Go back
+    </a>
+    <main>
+        <form>
+            <header>
+                <h2>Welcome back!</h2>
+            </header>
+            <section>
+                <label for="user">Username</label>
+                <input required autocomplete="off" type="text" name="user">
+            </section>
+            <section>
+                <label for="pasw">Password</label>
+                <input required autocomplete="off" type="password" name="pasw">
+            </section>
+            <section id="err">
+                <p></p>
+            </section>
+            <section id="refs">
+                <a href="/forgot">
+                    ¿Forgot password?
+                </a>
+                <a href="/register">
+                    Register
+                </a>
+            </section>
+            <footer>
+                <button type="submit">Login</button>
+            </footer>
+        </form>
+    </main>
+    <LoginSubmitter client:only="react"/>
+</Layout>
+
+<style lang="scss">
+    $t:solid 0.2rem red;
+    main{
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+
+        & form{
+            height: 70vh;
+            width: 30vw;
+    
+            border-radius: 1rem;
+            background-color: var(--background-elevated-base);
+            letter-spacing: 0.1rem;
+
+            display: grid;
+            grid-template-rows: 1.4fr 1fr 1fr auto 3rem 1fr;
+            
+            & header{
+                display: grid;
+                place-items: center;
+
+                background-image: url(/portal.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 150px;
+
+                & h2{
+                    font-size: 40px;
+                    letter-spacing: 0.5rem;
+                }
+            }
+            
+            & section, footer{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                & input{
+                    height: 3rem;
+                    width: 70%;
+
+                    padding: 0 1rem;
+                    border: 0;
+                    border-radius: 1rem;
+                    
+                    font-size: 24px;
+                    text-align: center;
+                    background-color: var(--background-elevated-highlight);
+                }
+                & input:hover, input:focus, input:valid{
+                    height: 3.5rem;
+                    outline: 0;
+                }
+
+                & label{
+                    width: 70%;
+                    font-size: 20px;
+                }
+
+                & button{
+                    padding: 0.5rem 1.5rem;
+                    border: 0;
+                    border-radius: 1rem;
+
+                    letter-spacing: 0.1rem;
+
+                    cursor: pointer;
+                    background-color: var(--background-elevated-highlight);
+                }
+                & button:hover{
+                    background-color: var(--essential-positive);
+                }
+            }
+            & section#refs{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                justify-self: center;
+                
+                width: 90%;
+                & a{
+                    color: var(--text-announcement);
+                }
+                & a:hover{
+                    text-decoration: underline;
+                }
+            }
+            & section#err{
+                color: red;
+            }
+
+        }
+    }
+
+    a#ret{
+        display: flex;
+        align-items: center;
+
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+        
+        gap: 10px;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+
+        background-color: var(--background-elevated-base);
+    }
+    a#ret:hover{
+        background-color: var(--essential-positive);
+    }
+</style>

@@ -49,8 +49,11 @@ const { sect } = Astro.params;
             border-radius: 0.5rem;
             background-color: var(--background-elevated-base);
         }
-        & a:hover, a.select{
+        & a:hover{
             background-color: var(--essential-positive);
+        }
+        & a.select{
+            outline: solid 0.2rem var(--essential-positive);
         }
     }
 </style>

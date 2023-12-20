@@ -1,4 +1,5 @@
 ---
+//@ts-nocheck
 import type { GetStaticPaths } from "astro";
 import DocsLayout from '../../layouts/DocsLayout.astro';
 import { AstroComponentFactory } from "astro/dist/runtime/server";
@@ -9,8 +10,10 @@ export const getStaticPaths = (async () => {
     };
     const mds = await Astro.glob('../../md/docs/*.md');
     const Paths = mds.map((md, idx) => {
-        const name = getMdName(md.file);
-        return { id:0, name:name.replaceAll('_', ' '), path:name.replaceAll('_', ''), href:`/docs/${name.replaceAll('_', '')}`, md:md };
+        const temp = getMdName(md.file);
+        const name = temp.substring(3);
+        const id = Number(temp.substring(0, 3));
+        return { id:id, name:name.replaceAll('_', ' '), path:name.replaceAll('_', ''), href:`/docs/${name.replaceAll('_', '')}`, md:md };
     });
 
     return Paths.map((el) => ({ params:{ sect:el.path }, props:{ paths:Paths, Md:el.md.Content } }));
@@ -35,7 +38,31 @@ const { paths, Md }  = Astro.props;
     <main id="docsMarkDown">
         <Md />
     </main>
+    <a href="/">
+        <img src="/return.svg" width="20" height="20" alt="">
+        Go back
+    </a>
 </DocsLayout>
+
+<style lang="scss">
+    a{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        position: absolute;
+        right: 2rem;
+        top: 2rem;
+
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+
+        background-color: var(--background-elevated-base);
+    }
+    a:hover{
+        background-color: var(--essential-positive);
+    }
+</style>
 
 <style is:global lang="scss">
     main#docsMarkDown{
@@ -45,8 +72,9 @@ const { paths, Md }  = Astro.props;
 
         width: 90%;
 
-        letter-spacing: 0.1rem;
         padding: 1rem 0;
+        letter-spacing: 0.1rem;
+        font-weight: 500;
 
         & h1{
             font-size: 50px;

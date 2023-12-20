@@ -1,0 +1,35 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Navigation from '@/components/Docs/Navigation.astro'
+
+type Path = {
+    id:number,
+    name:string,
+    path:string,
+    href:string
+};
+interface Props {
+    paths: Path[]
+};
+const { paths } = Astro.props;
+---
+
+
+<Layout title="PORTALS docs">
+    <div class="layout">
+        <Navigation paths={paths} transition:persist/>
+        <slot/>
+    </div>
+</Layout>
+
+<style lang="scss">
+    .layout{
+        display: grid;
+        grid-template-columns: 18rem 1fr;
+
+        height: 100vh;
+        width: 100vw;
+        
+        overflow: hidden;
+    }
+</style>

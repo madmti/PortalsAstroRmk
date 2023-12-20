@@ -7,12 +7,17 @@
         "src/*"
       ]
     },
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ],
     "jsx": "react-jsx",
     "jsxImportSource": "react",
   },
   "include": [
     "src/**/*.d.ts",
     "src/**/*.ts",
-    "src/**/*.astro"
+    "src/**/*.astro",
   ]
 }

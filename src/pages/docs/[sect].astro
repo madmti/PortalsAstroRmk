@@ -1,0 +1,87 @@
+---
+import type { GetStaticPaths } from "astro";
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import { AstroComponentFactory } from "astro/dist/runtime/server";
+export const getStaticPaths = (async () => {
+    const getMdName = (mdPath:string) => {
+        const lst = mdPath.split('/');
+        return lst[lst.length - 1].split('.')[0];
+    };
+    const mds = await Astro.glob('../../md/docs/*.md');
+    const Paths = mds.map((md, idx) => {
+        const name = getMdName(md.file);
+        return { id:0, name:name.replaceAll('_', ' '), path:name.replaceAll('_', ''), href:`/docs/${name.replaceAll('_', '')}`, md:md };
+    });
+
+    return Paths.map((el) => ({ params:{ sect:el.path }, props:{ paths:Paths, Md:el.md.Content } }));
+}) satisfies GetStaticPaths;
+
+type Path = {
+    id:number,
+    name:string,
+    path:string,
+    href:string
+};
+interface Props {
+    paths: Path[],
+    Md:AstroComponentFactory
+};
+
+const { paths, Md }  = Astro.props;
+
+---
+
+<DocsLayout paths={paths}>
+    <main id="docsMarkDown">
+        <Md />
+    </main>
+</DocsLayout>
+
+<style is:global lang="scss">
+    main#docsMarkDown{
+        display: flex;
+        flex-direction: column;
+        justify-self: center;
+
+        width: 90%;
+
+        letter-spacing: 0.1rem;
+        padding: 1rem 0;
+
+        & h1{
+            font-size: 50px;
+        }
+        & h2{
+            font-size: 24px;
+            margin-top: 1rem;
+        }
+        & h3{
+            font-size: 20px;
+        }
+        & p, li{
+            font-size: 17px;
+        }
+        & strong{
+            color: var(--text-positive);
+        }
+        & em{
+            color: var(--text-violet);
+        }
+        & em > strong{
+            color: var(--text-warning);
+        }
+        & a, a>em{
+            color: var(--text-announcement);
+        }
+        & a:hover{
+            text-decoration: underline;
+        }
+        & ul{
+            margin-left: 2rem;
+
+            & li{
+                list-style: circle;
+            }
+        }
+    }
+</style>

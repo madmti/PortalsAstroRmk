@@ -1,0 +1,56 @@
+---
+type Path = {
+    id:number,
+    name:string,
+    path:string,
+    href:string
+};
+interface Props {
+    paths: Path[]
+};
+const { paths } = Astro.props;
+const { sect } = Astro.params;
+---
+
+<nav>
+    <h3>PORTALS docs</h3>
+    {
+        paths.map((el) => {
+            return(
+            <a class={el.path === sect? 'select':''} href={el.href}>{el.name}</a>
+            );
+        })
+    }
+</nav>
+
+<style lang="scss">
+    $t: solid 0.2rem red;
+    nav{
+        position:relative;
+        overflow: hidden auto;
+
+        padding-top: 1rem;
+        background-color: var(--background-highlight);
+
+        & h3{
+            text-align: center;
+        }
+
+        & a{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            margin: 0.5rem auto;
+            
+            height: 2rem;
+            width: 90%;
+            
+            border-radius: 0.5rem;
+            background-color: var(--background-elevated-base);
+        }
+        & a:hover, a.select{
+            background-color: var(--essential-positive);
+        }
+    }
+</style>

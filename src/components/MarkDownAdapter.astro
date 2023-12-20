@@ -1,0 +1,37 @@
+---
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+interface Props{
+    Mark: AstroComponentFactory,
+}
+
+const { Mark } = Astro.props;
+---
+
+<div class="md">
+    <Mark />
+</div>
+
+<style is:global lang="scss">
+    .md{
+        max-height: 30rem;
+        align-self: center;
+
+        border-radius: 0.5rem;
+        padding: 0rem 2rem 0 2rem;
+
+        letter-spacing: 0.1rem;
+
+        & h1{ font-size:50px; }
+        & h2{ font-size:24px; }
+        & h3{ font-size:15px; }
+        & ul > li{
+            margin: 1rem 0 1rem 1rem;
+            list-style: url(/pacmini.svg);
+        }
+        & ol > li{
+            margin: 1rem 0 1rem 1rem;
+            list-style: disc;
+        }
+    }
+</style>

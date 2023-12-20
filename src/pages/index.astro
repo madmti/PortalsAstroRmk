@@ -1,6 +1,10 @@
 ---
 export const prerender = true;
+import MarkDownAdapter from '@/components/MarkDownAdapter.astro';
+import TeamMember from '@/components/TeamMember.astro';
 import Layout from '@/layouts/Layout.astro';
+
+const LastPost = (await Astro.glob('../md/*.md')).reverse()[0];
 ---
 
 <Layout title="Welcome to PORTALS">
@@ -9,7 +13,12 @@ import Layout from '@/layouts/Layout.astro';
             <h3>PORTALS</h3>
         </div>
         <div>
+            <a href="/docs">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="#ffffff" d="M8 13h8v-2H8Zm0 3h8v-2H8Zm0 3h5v-2H8Zm-2 3q-.825 0-1.412-.587Q4 20.825 4 20V4q0-.825.588-1.413Q5.175 2 6 2h8l6 6v12q0 .825-.587 1.413Q18.825 22 18 22Zm7-13h5l-5-5Z"/></svg>
+                Docs
+            </a>
             <a href="https://github.com/madmti/PortalsAstroRmk">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="#ffffff" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
                 Github
             </a>
         </div>
@@ -17,7 +26,7 @@ import Layout from '@/layouts/Layout.astro';
     <section id="box1">
         <h2>PORTALS</h2>
         <p>connecting</p>
-        <a href="#">Go login</a>
+        <a href="/login">Go login</a>
         <small>Developed by madmti`s team</small>
     </section>
     <section id="box2">
@@ -54,6 +63,26 @@ import Layout from '@/layouts/Layout.astro';
     </section>
     <section id="box3">
         <h2>VERSION & DETAILS</h2>
+        <article id="md">
+            <MarkDownAdapter Mark={LastPost.Content}/>
+        </article>
+        <article>
+            <h3>Proyect dates</h3>
+            <p>Start: 23 / 11 / 2023</p>
+            <p>Launch: -- / -- / ----</p>
+
+            <h3>Proyect details</h3>
+            <p>Actual version: 0.0.1 beta</p>
+            <p>Actual state: development</p>
+
+            <h3>The Team</h3>
+            <TeamMember name='madmti'>
+                <img src="/madmti.png" width="30" height="30" alt="">
+            </TeamMember>
+            <TeamMember name='emilio'>
+                <img src="/madmti.png" width="30" height="30" alt="">
+            </TeamMember>
+        </article>
     </section>
     <footer>
         <p>PORTALS can mix the best of playing with friends, listen music & nice workspaces</p>
@@ -77,22 +106,30 @@ import Layout from '@/layouts/Layout.astro';
 
         background-color: var(--background-press);
 
+        & div:nth-child(2){ // DER
+            justify-content: end;
+            
+            gap: 1rem;
+        }
         & div{ // separacion del header en IZQ y DER
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            align-items:center;
 
             height: 100%;
             padding: 0 1rem;
 
-            & h3{ // Nombre "PORTALS"
-                align-self: flex-start;
-            }
             & a{ // Links
-                align-self: flex-end;
+                display: flex;
+                align-items: center;
+
+                gap: 10px;
             }
-            & a:hover{
-                color: var(--text-violet);
+            & a:hover{ // texto
+                color: var(--text-positive);
+
+                & svg > path{ // Icono
+                    fill: var(--text-positive);
+                }
             }
         }
     }
@@ -100,6 +137,8 @@ import Layout from '@/layouts/Layout.astro';
     section{
         height: 100vh;
         width: 90vw;
+
+        overflow: hidden;
     }
     section#box1{
         // SVG del titulo
@@ -122,7 +161,7 @@ import Layout from '@/layouts/Layout.astro';
             padding: 0.5rem 1rem;
             border-radius: 1rem;
 
-            letter-spacing: 0.1rem;
+            letter-spacing: 0.2rem;
             background-color: var(--text-positive);
             transform: translate(0, 3rem);
 
@@ -133,7 +172,7 @@ import Layout from '@/layouts/Layout.astro';
             outline-offset: 0.2rem;
         }
 
-        & small{ // 
+        & small{ // mensaje de abajo
             position: absolute;
             bottom: 100px;
 
@@ -159,6 +198,37 @@ import Layout from '@/layouts/Layout.astro';
                 display: flex;
                 aling-items: center;
                 gap: 5px;
+            }
+        }
+    }
+
+    section#box3{
+        display: grid;
+        grid-template-areas: 
+        'titl titl'
+        'mark desc';
+        grid-template-rows: 8rem 1fr;
+        grid-template-columns: 1fr 20rem;
+
+        letter-spacing: 0.2rem;
+
+        & h2{ // titulo
+            grid-area: titl;
+        }
+        
+        & article#md{ // Release notes MarkDown
+            grid-area: mark;
+        }
+
+        & article:not(#md){ // Descripcion general
+            grid-area: desc;
+
+            // espaciado
+            & h3{
+                margin: 0.5rem 0;
+            }
+            & p{
+                margin-left: 1rem;
             }
         }
     }

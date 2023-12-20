@@ -1,0 +1,33 @@
+---
+interface Props{
+    name:string
+}
+
+const { name } = Astro.props;
+---
+
+<div>
+    <slot/>
+    <p>{name}</p>
+</div>
+
+<style lang="scss">
+    div{
+        display: flex;
+        align-items: center;
+
+        padding: 0.5rem 1rem;
+
+        border-radius: 0.5rem;
+        gap: 10px;
+        cursor: pointer;
+
+        & p {
+            letter-spacing: 0.2rem;
+        }
+    }
+    div:hover{
+        
+        background-color: var(--background-highlight);
+    }
+</style>

@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import LoginSubmitter from '@/components/LogReg/LoginSubmitter';
+import { BACKEND_URL } from "@/public.env";
 ---
 
 
@@ -23,7 +24,7 @@ import LoginSubmitter from '@/components/LogReg/LoginSubmitter';
                 <input required autocomplete="off" type="password" name="pasw">
             </section>
             <section id="err">
-                <p></p>
+                <LoginSubmitter URL={BACKEND_URL} client:only="react"/>
             </section>
             <section id="refs">
                 <a href="/forgot">
@@ -38,7 +39,6 @@ import LoginSubmitter from '@/components/LogReg/LoginSubmitter';
             </footer>
         </form>
     </main>
-    <LoginSubmitter client:only="react"/>
 </Layout>
 
 <style lang="scss">

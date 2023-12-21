@@ -1,31 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-type formData = {
-	user: HTMLInputElement;
-	pasw: HTMLInputElement;
+type FormData = {
 	email: HTMLInputElement;
 };
 
-type SvResponse = {
+type resData = {
 	status: boolean;
 	msg: string;
-	cookie: string;
 	redirect: string;
 };
 
-export default function LoginSubmitter({ URL }: { URL: string }) {
+export default function ForgotSubmitter({ URL }: { URL: string }) {
 	const [msg, setMsg] = useState('');
 
-	const onSubmit = async (ev: SubmitEvent) => {
+	const onSubmit = (ev: SubmitEvent) => {
 		ev.preventDefault();
 		//@ts-ignore
-		const form: formData = ev.target;
+		const form: FormData = ev.target;
 		const data = {
-			user: form.user.value,
-			pasw: form.pasw.value,
 			email: form.email.value,
 		};
-		fetch(`${URL}/auth/register`, {
+		fetch(`${URL}/auth/forgot`, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -33,23 +29,22 @@ export default function LoginSubmitter({ URL }: { URL: string }) {
 			body: JSON.stringify(data),
 		})
 			.then((res) => res.json())
-			.then((data: SvResponse) => {
+			.then((data: resData) => {
 				if (!data.status) {
 					setMsg(data.msg);
 					return;
 				}
-				document.cookie = data.cookie;
+				alert(data.msg);
 				location.pathname = data.redirect;
 			})
-			.catch((reason) => {
-				console.log(reason);
-				setMsg('failed getting backend services');
+			.catch((err) => {
+				console.log(err);
+				setMsg('failed getting backend services.');
 			});
 	};
 
 	useEffect(() => {
 		onsubmit = onSubmit;
 	}, []);
-
 	return <p>{msg}</p>;
 }

@@ -1,11 +1,11 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import RegisterSubmitter from '@/components/LogReg/RegisterSubmitter';
+import ForgotSubmitter from '@/components/LogReg/ForgotSubmitter';
 import { BACKEND_URL } from "@/public.env";
 ---
 
 
-<Layout title="Register">
+<Layout title="Forgot">
     <a id="ret" href="/">
         <img src="/return.svg" width="20" height="20" alt="">
         Go back
@@ -13,33 +13,29 @@ import { BACKEND_URL } from "@/public.env";
     <main>
         <form>
             <header>
-                <h2>Welcome to PORTALS</h2>
+                <h2>Account Recovery</h2>
             </header>
             <section>
-                <label for="user">Username</label>
-                <input required autocomplete="off" type="text" name="user">
+                <p>this will send a recovery mail to your email</p>
             </section>
             <section>
                 <label for="email">Email</label>
                 <input required autocomplete="off" type="email" name="email">
             </section>
-            <section>
-                <label for="pasw">Password</label>
-                <input required autocomplete="off" type="password" name="pasw">
-            </section>
+
             <section id="err">
-                <RegisterSubmitter URL={BACKEND_URL} client:only="react"/>
+                <ForgotSubmitter URL={BACKEND_URL} client:only="react"/>
             </section>
             <section id="refs">
-                <a href="/forgot">
-                    ¿Forgot password?
+                <a href="/docs/AccountRecovery">
+                    ¿Need help?
                 </a>
                 <a href="/login">
                     Login
                 </a>
             </section>
             <footer>
-                <button type="submit">Register</button>
+                <button type="submit">Send</button>
             </footer>
         </form>
     </main>
@@ -55,7 +51,7 @@ import { BACKEND_URL } from "@/public.env";
         width: 100vw;
 
         & form{
-            height: 70vh;
+            height: 55vh;
             width: 30vw;
     
             border-radius: 1rem;
@@ -63,7 +59,7 @@ import { BACKEND_URL } from "@/public.env";
             letter-spacing: 0.1rem;
 
             display: grid;
-            grid-template-rows: 1.4fr 1fr 1fr 1fr auto 3rem 1fr;
+            grid-template-rows: 1fr 0.2fr 1fr auto 3rem 0.5fr;
             
             & header{
                 display: grid;
@@ -84,6 +80,10 @@ import { BACKEND_URL } from "@/public.env";
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
+
+                & p{
+                    color: var(--text-subdued);
+                }
 
                 & input{
                     height: 3rem;

@@ -25,13 +25,28 @@ const { Mark } = Astro.props;
         & h1{ font-size:50px; }
         & h2{ font-size:24px; }
         & h3{ font-size:15px; }
+        & strong{
+            color: var(--text-positive);
+        }
+        & em{
+            color: var(--text-violet);
+        }
+        & em > strong{
+            color: var(--text-warning);
+        }
+        & a, a>em{
+            color: var(--text-announcement);
+        }
+        & a:hover{
+            text-decoration: underline;
+        }
         & ul > li{
             margin: 1rem 0 1rem 1rem;
             list-style: url(/pacmini.svg);
         }
         & ol > li{
             margin: 1rem 0 1rem 1rem;
-            list-style: disc;
+            list-style: url(/dotsmini.svg);
         }
     }
 </style>

@@ -1,8 +1,107 @@
 ---
-import HomeLayout from "@/layouts/HomeLayout.astro";
+import MarkDownAdapter from '@/components/MarkDownAdapter.astro';
+import PathAnchor from '@/components/PathAnchor.astro';
+import HomeLayout from '@/layouts/HomeLayout.astro';
+import { EasyTryCatch } from '@/lib/Actions';
 
+// News MarkDown
+const mds = await EasyTryCatch(async () => {
+	const MarkDowns = (await Astro.glob('../md/news/*.md'))[0];
+	return MarkDowns;
+});
 ---
 
 <HomeLayout>
-    
+	<div slot="path" id="path">
+		<PathAnchor text="Tips and Welcome!">
+			<img src="/dots.svg" height="20" width="20" alt="" />
+		</PathAnchor>
+	</div>
+	<div slot="nav" id="nav">
+		<h3>Local Navigation Tips!</h3>
+		<br />
+		<p>Here you can navigate trough all the 4 main sections</p>
+		<br />
+		<p>
+			in <strong>Servers</strong> you can switch between servers and channels.
+		</p>
+		<br />
+		<p>
+			in <strong>Music</strong> you can listen songs in group or chill alone.
+		</p>
+		<br />
+		<p>
+			in <strong>Events</strong> you can play games and make performance with
+			groups or alone too.
+		</p>
+		<br />
+		<p>
+			in <strong>Friends</strong> manage your friends list and other stuff
+			related.
+		</p>
+		<br />
+		<p>Select one section to start experience PORTALS ...</p>
+	</div>
+	<div slot="main" id="main">
+		<h2>Welcome back!</h2>
+		<article>
+			{
+				mds ? (
+					<div class="scroll">
+						<MarkDownAdapter Mark={mds.Content} />
+					</div>
+				) : (
+					<p id="err">No news yet :c</p>
+				)
+			}
+		</article>
+	</div>
 </HomeLayout>
+
+<style lang="scss">
+	$t: solid 0.2rem blue;
+	div#path {
+		display: flex;
+		align-items: center;
+
+		gap: 0.5rem;
+	}
+
+	div#nav {
+		height: 100%;
+		width: 70%;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	div#main {
+		display: grid;
+		grid-template-rows: 10rem auto;
+		place-items: center;
+
+		& article {
+			height: 52vh;
+			width: 90%;
+
+			border-radius: 1rem;
+
+			overflow: hidden auto;
+			background-color: var(--background-base);
+
+			& p#err {
+				height: 100%;
+				width: 100%;
+
+				display: grid;
+				place-items: center;
+			}
+		}
+		& article:hover{
+			box-shadow: 0.2rem 0.2rem 1rem var(--essential-positive);
+			transform: translate(-0.2rem, -0.2rem);
+		}
+	}
+</style>

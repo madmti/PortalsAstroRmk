@@ -1,8 +1,58 @@
 ---
-import HomeLayout from "@/layouts/HomeLayout.astro";
-
+import HomeLayout from '@/layouts/HomeLayout.astro';
 ---
 
 <HomeLayout>
-    
+	<div slot="path" id="path">
+		<img src="/dots.svg" height="20" width="20" alt="" />
+		<p>Tips and Welcome!</p>
+	</div>
+	<div slot="nav" id="nav">
+		<h3>Local Navigation Tips!</h3>
+		<br />
+		<p>Here you can navigate trough all the 4 main sections</p>
+		<br />
+		<p>
+			in <strong>Servers</strong> you can switch between servers and channels.
+		</p>
+		<br />
+		<p>in <strong>Music</strong> you can listen songs in group or chill alone.</p>
+		<br />
+		<p>
+			in <strong>Events</strong> you can play games and make performance with
+			groups or alone too.
+		</p>
+		<br />
+		<p>in <strong>Friends</strong> manage your friends list and other stuff related.</p>
+		<br />
+		<p>Select one section to start experience PORTALS ...</p>
+	</div>
+	<div slot="main" id="main">
+		<h2>Welcome back!</h2>
+	</div>
 </HomeLayout>
+
+<style lang="scss">
+	$t: solid 0.2rem blue;
+	div#path {
+		display: flex;
+		align-items: center;
+
+		gap: 0.5rem;
+	}
+
+	div#nav {
+		height: 100%;
+		width: 70%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+	}
+
+    div#main{
+        display: grid;
+        place-items: center;
+    }
+</style>

@@ -1,30 +1,169 @@
 ---
-import Layout from "./Layout.astro";
-
+import Layout from './Layout.astro';
+import GoodTime from '@/components/HomeLayout/GoodTime';
+import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 ---
 
-
-
 <Layout title="PORTALS">
-    <div class="container">
-        <header>
-            
-        </header>
-        <nav>
-    
-        </nav>
-        <main>
-    
-        </main>
-        <aside>
-    
-        </aside>
-    </div>
+	<div class="container">
+		<header id="mainheader">
+			<section id="L">
+				<GoodTime client:load />
+				<h3>USER#84127</h3>
+				<LatencyCheck client:load />
+			</section>
+			<section id="mid">
+				<h2>PORTALS</h2>
+				<svg width="100" height="100" viewBox="0 0 512 512"
+					><path
+						fill="#121212"
+						d="M298.736 21.016c-99.298 0-195.928 104.647-215.83 233.736c-7.074 45.887-3.493 88.68 8.512 124.787a243.08 243.08 0 0 1-11.467-20.034c-16.516-32.335-24.627-65.378-25-96.272c-11.74 36.254-8.083 82.47 14.482 126.643c27.7 54.227 81.563 91.94 139.87 97.502a136.491 136.491 0 0 0 17.364 1.108c99.298 0 195.93-104.647 215.83-233.736c9.28-60.196.23-115.072-22.133-156.506c21.625 21.867 36.56 45.786 44.617 69.496c.623-30.408-14.064-65.766-44.21-95.806c-33.718-33.598-77.227-50.91-114.995-50.723c-2.328-.118-4.67-.197-7.04-.197zm-5.6 36.357c40.223 0 73.65 20.342 95.702 53.533c15.915 42.888 12.51 108.315.98 147.858c-16.02 54.944-40.598 96.035-79.77 126.107c-41.79 32.084-98.447 24.39-115.874-5.798a43.356 43.356 0 0 1-3.38-7.385c11.724 14.06 38.188 14.944 61.817 1.3c25.48-14.71 38.003-40.727 27.968-58.108c-10.036-17.384-38.826-19.548-64.307-4.837c-9.83 5.676-17.72 13.037-23.14 20.934a81.918 81.918 0 0 1 1.626-3.88c-18.687 24.49-24.562 52.126-12.848 72.417c38.702 45.923 98.07 25.503 140.746-6.426c37.95-28.392 72.32-73.55 89.356-131.988a295.488 295.488 0 0 0 3.467-13.008c-.286 2.218-.59 4.442-.934 6.678c-16.807 109.02-98.412 197.396-182.272 197.396c-35.644 0-65.954-15.975-87.74-42.71c-26.492-48.396-15.988-142.083 4.675-185.15c26.745-55.742 66.133-122.77 134.324-116.804c46.03 4.027 63.098 58.637 39.128 116.22c-8.61 20.685-21.192 39.314-36.21 54.313c24.91-16.6 46.72-42.13 59.572-73c23.97-57.583 6.94-113.422-39.13-116.805c-85.737-6.296-137.638 58.55-177.542 128.485a318.924 318.924 0 0 0-20.977 60.707a263.164 263.164 0 0 1 2.493-22.652C127.67 145.75 209.275 57.373 293.135 57.373z"
+					></path></svg
+				>
+			</section>
+			<section id="R">
+				<p>LOGOUT por hacer</p>
+			</section>
+		</header>
+		<nav>
+			<header>
+				<a href="#">servers</a>
+				<a href="#">music</a>
+				<a href="#">events</a>
+				<a href="#">friends</a>
+			</header>
+			<article>
+				<slot name="nav" />
+			</article>
+		</nav>
+		<main>
+			<header>
+				<h3>On</h3>
+				<slot name="path" />
+			</header>
+			<article>
+				<slot name="main" />
+			</article>
+		</main>
+		<aside>
+			ASIDE POR HACER...
+		</aside>
+	</div>
 </Layout>
 
 <style lang="scss">
-    div.container{
-        height: 100vh;
-        width: 100vw;
-    }
+	$t: solid 0.2rem red;
+	$gap: 2rem;
+	$preferencia: var(--essential-positive);
+
+	div.container {
+		height: calc(100vh - $gap);
+		width: calc(100vw - $gap);
+
+		display: grid;
+		grid-template-areas:
+			'hea hea'
+			'nav mai'
+			'asi mai';
+		grid-template-columns: 1fr 4fr;
+		grid-template-rows: 1fr 5fr 6rem;
+
+		padding: calc($gap / 2);
+		gap: calc($gap / 2);
+
+		& header#mainheader,
+		nav,
+		aside,
+		main {
+			background-color: var(--background-highlight);
+			border-radius: 0.5rem;
+		}
+		& header#mainheader {
+			grid-area: hea;
+
+			display: grid;
+			grid-template-columns: 3fr 1fr 3fr;
+			place-items: center;
+
+			& section {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				letter-spacing: 0.1rem;
+				gap: 1rem;
+			}
+
+			& section#mid {
+				& h2 {
+					// titulo
+					z-index: 1;
+					text-shadow: 0 0 1rem $preferencia;
+				}
+				& svg {
+					// fondo
+					position: absolute;
+					z-index: 0;
+					filter: drop-shadow(0 0 0.5rem $preferencia); // sombra
+
+					& path {
+						// color del svg
+						fill: $preferencia;
+					}
+				}
+			}
+		}
+		& nav {
+			grid-area: nav;
+
+			display: grid;
+			grid-template-rows: 4rem 1fr;
+			grid-template-columns: 1fr;
+
+			& header {
+				display: flex;
+				align-items: center;
+				justify-content: space-evenly;
+
+				border-bottom: solid 0.2rem var(--background-base);
+
+				& a {
+					cursor: pointer;
+					padding: 0.5rem 1rem;
+
+					border: 0;
+					border-radius: 0.5rem;
+
+					background-color: var(--background-elevated-base);
+				}
+				& a:hover {
+					background-color: var(--essential-positive);
+				}
+			}
+
+			& article {
+				display: grid;
+				place-items: center;
+			}
+		}
+		& main {
+			grid-area: mai;
+
+			display: grid;
+			grid-template-rows: 4rem 1fr;
+
+			& header {
+				display: flex;
+				align-items: center;
+
+				gap: 1rem;
+				padding-left: 1rem;
+
+				border-bottom: solid 0.2rem var(--background-base);
+			}
+		}
+		& aside {
+			grid-area: asi;
+		}
+	}
 </style>

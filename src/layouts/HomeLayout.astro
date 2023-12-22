@@ -2,6 +2,7 @@
 import Layout from './Layout.astro';
 import GoodTime from '@/components/HomeLayout/GoodTime';
 import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
+import LogoutButton from '@/components/HomeLayout/LogoutButton';
 ---
 
 <Layout title="PORTALS">
@@ -9,7 +10,7 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 		<header id="mainheader">
 			<section id="L">
 				<GoodTime client:load />
-				<h3>USER#84127</h3>
+				<h3>USER#OFFLINE</h3>
 				<LatencyCheck client:load />
 			</section>
 			<section id="mid">
@@ -22,7 +23,7 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				>
 			</section>
 			<section id="R">
-				<p>LOGOUT por hacer</p>
+				<LogoutButton client:load />
 			</section>
 		</header>
 		<nav>
@@ -46,7 +47,10 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 			</article>
 		</main>
 		<aside>
-			ASIDE POR HACER...
+			<img src="/madmti.png" height="50" width="50" alt="" />
+			<div>mic</div>
+			<div>aud</div>
+			<div>con</div>
 		</aside>
 	</div>
 </Layout>
@@ -78,6 +82,7 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 			background-color: var(--background-highlight);
 			border-radius: 0.5rem;
 		}
+
 		& header#mainheader {
 			grid-area: hea;
 
@@ -89,6 +94,8 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				display: flex;
 				align-items: center;
 				justify-content: center;
+
+				width: 100%;
 
 				letter-spacing: 0.1rem;
 				gap: 1rem;
@@ -113,6 +120,7 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				}
 			}
 		}
+
 		& nav {
 			grid-area: nav;
 
@@ -146,6 +154,7 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				place-items: center;
 			}
 		}
+
 		& main {
 			grid-area: mai;
 
@@ -162,8 +171,31 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				border-bottom: solid 0.2rem var(--background-base);
 			}
 		}
+
 		& aside {
 			grid-area: asi;
+
+			display: flex;
+			align-items: center;
+			justify-content: space-evenly;
+
+			& img {
+				border-radius: 25px;
+			}
+
+			& div {
+				display: grid;
+				place-items: center;
+
+				height: 50px;
+				width: 50px;
+
+				border: 0;
+				border-radius: 25px;
+
+				opacity: 50%;
+				background-color: var(--background-base);
+			}
 		}
 	}
 </style>

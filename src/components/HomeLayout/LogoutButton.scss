@@ -1,0 +1,13 @@
+button#logoutButton{
+    border: 0;
+    border-radius: 1rem;
+
+    padding: 0.5rem 1rem;
+
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+    background-color: var(--background-highlight);
+}
+button#logoutButton:hover{
+    background-color: var(--background-elevated-base);
+}

@@ -1,0 +1,41 @@
+---
+interface Props {
+    href?: string,
+    text: string,
+    style?:string,
+}
+const { href, text, style } = Astro.props;
+---
+{
+    href
+    ?
+    <a href={href} style={style}>
+        <slot />
+        {text}
+    </a>
+    :
+    <p style={style}>
+        <slot />
+        {text}
+    </p>
+}
+<style lang="scss">
+    a, p{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 0;
+        border-radius: 0.5rem;
+
+        padding: 0.5rem 1rem;
+        gap: 0.5rem;
+        
+        cursor: pointer;
+        background-color: transparent;
+    }
+
+    a:hover, p:hover{
+        background-color: var(--background-elevated-base);
+    }
+</style>

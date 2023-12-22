@@ -1,6 +1,0 @@
-
-services:
-  astro:
-    build: ./
-    ports:
-    - 4321:4321

@@ -3,6 +3,18 @@ import Layout from './Layout.astro';
 import GoodTime from '@/components/HomeLayout/GoodTime';
 import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 import LogoutButton from '@/components/HomeLayout/LogoutButton';
+import ReactMainManager from '@/components/HomeLayout/LocalManager/ReactMainManager';
+import ManagerPosChanger from '@/components/HomeLayout/LocalManager/ManagerPosChanger';
+
+import { BACKEND_URL } from '@/public.env';
+
+const isServerPath =
+	(Astro.url.pathname.split('/')[1] &&
+		Astro.url.pathname.split('/')[1] === 'servers') ||
+	(Astro.url.pathname.split('/')[2] &&
+		Astro.url.pathname.split('/')[2] === 'server')
+		? true
+		: false;
 ---
 
 <Layout title="PORTALS">
@@ -28,10 +40,30 @@ import LogoutButton from '@/components/HomeLayout/LogoutButton';
 		</header>
 		<nav>
 			<header>
-				<a href="#">servers</a>
-				<a href="#">music</a>
-				<a href="#">events</a>
-				<a href="#">friends</a>
+				<ManagerPosChanger
+					text="Servers"
+					position="servers"
+					anchor={isServerPath?null:'/servers'}
+					client:load
+				/>
+				<ManagerPosChanger
+					text="Music"
+					position="music"
+					anchor={null}
+					client:load
+				/>
+				<ManagerPosChanger
+					text="Events"
+					position="events"
+					anchor={null}
+					client:load
+				/>
+				<ManagerPosChanger
+					text="Friends"
+					position="friends"
+					anchor={null}
+					client:load
+				/>
 			</header>
 			<article>
 				<slot name="nav" />
@@ -43,7 +75,9 @@ import LogoutButton from '@/components/HomeLayout/LogoutButton';
 				<slot name="path" />
 			</header>
 			<article>
-				<slot name="main" />
+				<ReactMainManager BACKEND_URL={BACKEND_URL} client:load>
+					<slot name="main" />
+				</ReactMainManager>
 			</article>
 		</main>
 		<aside>
@@ -134,19 +168,6 @@ import LogoutButton from '@/components/HomeLayout/LogoutButton';
 				justify-content: space-evenly;
 
 				border-bottom: solid 0.2rem var(--background-base);
-
-				& a {
-					cursor: pointer;
-					padding: 0.5rem 1rem;
-
-					border: 0;
-					border-radius: 0.5rem;
-
-					background-color: var(--background-elevated-base);
-				}
-				& a:hover {
-					background-color: var(--essential-positive);
-				}
 			}
 
 			& article {

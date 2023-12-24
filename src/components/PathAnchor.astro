@@ -1,41 +1,47 @@
 ---
 interface Props {
-    href?: string,
-    text: string,
-    style?:string,
+	href?: string;
+	text: string;
+	style?: string;
+	color0?: string;
+	color1?: string;
 }
-const { href, text, style } = Astro.props;
+const { href, text, style, color0, color1 } = Astro.props;
 ---
+
 {
-    href
-    ?
-    <a href={href} style={style}>
-        <slot />
-        {text}
-    </a>
-    :
-    <p style={style}>
-        <slot />
-        {text}
-    </p>
+	href ? (
+		<a href={href} style={style}>
+			<slot />
+			{text}
+		</a>
+	) : (
+		<p style={style}>
+			<slot />
+			{text}
+		</p>
+	)
 }
-<style lang="scss">
-    a, p{
-        display: flex;
-        align-items: center;
-        justify-content: center;
+<style lang="scss" define:vars={{color:color0 || 'transparent', hover:color1 || '#242424'}}>
+	a,
+	p {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-        border: 0;
-        border-radius: 0.5rem;
+		border: 0;
+		border-radius: 0.5rem;
 
-        padding: 0.5rem 1rem;
-        gap: 0.5rem;
-        
-        cursor: pointer;
-        background-color: transparent;
-    }
+		padding: 0.5rem 1rem;
+		gap: 0.5rem;
 
-    a:hover, p:hover{
-        background-color: var(--background-elevated-base);
-    }
+		cursor: pointer;
+		font-size: 17px;
+		background-color: var(--color);
+	}
+
+	a:hover,
+	p:hover {
+		background-color: var(--hover);
+	}
 </style>

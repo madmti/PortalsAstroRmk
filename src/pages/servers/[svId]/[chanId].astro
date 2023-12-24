@@ -1,0 +1,57 @@
+---
+export const prerender = false;
+
+import { validateStoken } from '../../../lib/Actions';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+const { svId, chanId } = Astro.params;
+if (!payload || !svId || !chanId) return Astro.redirect('/');
+
+import HomeLayout from '../../../layouts/HomeLayout.astro';
+import PathAnchor from '../../../components/PathAnchor.astro';
+import { BACKEND_URL } from '../../../public.env';
+import { GetChannelInfo } from '../../../lib/APIcalls';
+
+const { server, channel } = await GetChannelInfo(
+	BACKEND_URL,
+	JSON.stringify(payload),
+	svId,
+	chanId
+);
+
+const is = {
+	text: '/text.svg',
+	voice: '/micOn.svg',
+	video: '/video.svg',
+};
+---
+
+<HomeLayout payload={payload}>
+	<div slot="path" id="path">
+		<PathAnchor text="Servers" href="/servers">
+			<img src="/group.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor text={server.name.toString()} href={`/servers/${svId}`}>
+			<img src="/group.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor text={channel.name.toString()}>
+			<img src={is[channel.is] || '/dots.svg'} width="20" height="20" alt="" />
+		</PathAnchor>
+	</div>
+	<div slot="nav" id="nav">
+        navigation por hacer
+    </div>
+	<div slot="main" id="main">
+        chat react por hacer
+    </div>
+</HomeLayout>
+
+<style lang="scss">
+	#path {
+		display: flex;
+		align-items: center;
+
+		gap: 10px;
+	}
+</style>

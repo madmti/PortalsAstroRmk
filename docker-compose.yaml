@@ -5,5 +5,3 @@ services:
     build: ./
     ports:
       - 4321:4321
-    volumes:
-      - .:/app

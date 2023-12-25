@@ -8,7 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "serve": "astro check && astro build && bun run runserver.ts"
+    "serve": "bun run runserver.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.3",

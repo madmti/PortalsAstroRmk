@@ -17,4 +17,7 @@ RUN npm install
 ENV BACKEND_URL_REST = http://192.168.0.5:3000/
 
 EXPOSE 4321
-RUN ["sh", "entrypoint.sh"]
+
+RUN bun run build
+
+ENTRYPOINT [ "sh", "entrypoint.sh" ]

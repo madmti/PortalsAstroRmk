@@ -21,7 +21,7 @@ export const GetUserServers = async (URL: string, Payload: string) => {
 		console.log(data.msg);
 	}
 
-	return data.servers;
+	return data.servers || [];
 };
 
 type GetServerChannelsResponse = {

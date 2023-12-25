@@ -2,10 +2,9 @@
 import type { Server } from '@/lib/Types';
 interface Props {
 	server: Server;
-	userId: string;
 	userServerList: Server[];
 }
-const { server, userId, userServerList } = Astro.props;
+const { server, userServerList } = Astro.props;
 
 const isIn = userServerList.some(
 	(sv) => sv._id.toString() === server._id.toString()
@@ -27,6 +26,7 @@ const owner = server.super !== undefined?server.super.name:'PORTALS';
 		}
 	</h3>
     <p>{server.description}</p>
+    <input type="hidden" name="serverID" value={server._id.toString()}>
     <small>by {owner}</small>
 </form>
 

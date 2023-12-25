@@ -2,6 +2,19 @@
 import Layout from './Layout.astro';
 import GoodTime from '@/components/HomeLayout/GoodTime';
 import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
+import LogoutButton from '@/components/HomeLayout/LogoutButton';
+import ReactMainManager from '@/components/HomeLayout/LocalManager/ReactMainManager';
+import ManagerPosChanger from '@/components/HomeLayout/LocalManager/ManagerPosChanger';
+
+import { BACKEND_URL } from '@/public.env';
+
+const isServerPath =
+	(Astro.url.pathname.split('/')[1] &&
+		Astro.url.pathname.split('/')[1] === 'servers') ||
+	(Astro.url.pathname.split('/')[2] &&
+		Astro.url.pathname.split('/')[2] === 'server')
+		? true
+		: false;
 ---
 
 <Layout title="PORTALS">
@@ -9,7 +22,7 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 		<header id="mainheader">
 			<section id="L">
 				<GoodTime client:load />
-				<h3>USER#84127</h3>
+				<h3>USER#OFFLINE</h3>
 				<LatencyCheck client:load />
 			</section>
 			<section id="mid">
@@ -22,15 +35,35 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				>
 			</section>
 			<section id="R">
-				<p>LOGOUT por hacer</p>
+				<LogoutButton client:load />
 			</section>
 		</header>
 		<nav>
 			<header>
-				<a href="#">servers</a>
-				<a href="#">music</a>
-				<a href="#">events</a>
-				<a href="#">friends</a>
+				<ManagerPosChanger
+					text="Servers"
+					position="servers"
+					anchor={isServerPath?null:'/servers'}
+					client:load
+				/>
+				<ManagerPosChanger
+					text="Music"
+					position="music"
+					anchor={null}
+					client:load
+				/>
+				<ManagerPosChanger
+					text="Events"
+					position="events"
+					anchor={null}
+					client:load
+				/>
+				<ManagerPosChanger
+					text="Friends"
+					position="friends"
+					anchor={null}
+					client:load
+				/>
 			</header>
 			<article>
 				<slot name="nav" />
@@ -42,11 +75,16 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				<slot name="path" />
 			</header>
 			<article>
-				<slot name="main" />
+				<ReactMainManager BACKEND_URL={BACKEND_URL} client:load>
+					<slot name="main" />
+				</ReactMainManager>
 			</article>
 		</main>
 		<aside>
-			ASIDE POR HACER...
+			<img src="/madmti.png" height="50" width="50" alt="" />
+			<div>mic</div>
+			<div>aud</div>
+			<div>con</div>
 		</aside>
 	</div>
 </Layout>
@@ -78,6 +116,7 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 			background-color: var(--background-highlight);
 			border-radius: 0.5rem;
 		}
+
 		& header#mainheader {
 			grid-area: hea;
 
@@ -89,6 +128,8 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				display: flex;
 				align-items: center;
 				justify-content: center;
+
+				width: 100%;
 
 				letter-spacing: 0.1rem;
 				gap: 1rem;
@@ -113,6 +154,7 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				}
 			}
 		}
+
 		& nav {
 			grid-area: nav;
 
@@ -126,19 +168,6 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				justify-content: space-evenly;
 
 				border-bottom: solid 0.2rem var(--background-base);
-
-				& a {
-					cursor: pointer;
-					padding: 0.5rem 1rem;
-
-					border: 0;
-					border-radius: 0.5rem;
-
-					background-color: var(--background-elevated-base);
-				}
-				& a:hover {
-					background-color: var(--essential-positive);
-				}
 			}
 
 			& article {
@@ -146,6 +175,7 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				place-items: center;
 			}
 		}
+
 		& main {
 			grid-area: mai;
 
@@ -162,8 +192,31 @@ import LatencyCheck from '@/components/HomeLayout/LatencyCheck';
 				border-bottom: solid 0.2rem var(--background-base);
 			}
 		}
+
 		& aside {
 			grid-area: asi;
+
+			display: flex;
+			align-items: center;
+			justify-content: space-evenly;
+
+			& img {
+				border-radius: 25px;
+			}
+
+			& div {
+				display: grid;
+				place-items: center;
+
+				height: 50px;
+				width: 50px;
+
+				border: 0;
+				border-radius: 25px;
+
+				opacity: 50%;
+				background-color: var(--background-base);
+			}
 		}
 	}
 </style>

@@ -1,0 +1,16 @@
+#ManagerPosChanger {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+
+    border: 0;
+    border-radius: 0.5rem;
+
+    background-color: var(--background-elevated-base);
+}
+#ManagerPosChanger:hover {
+    background-color: var(--essential-positive);
+}
+
+#ManagerPosChanger.on{
+    outline: solid 0.15rem var(--essential-positive);
+}

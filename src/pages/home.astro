@@ -1,4 +1,8 @@
 ---
+import { validateStoken } from '@/lib/Actions';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+if (!payload) return Astro.redirect('/');
+
 import MarkDownAdapter from '@/components/MarkDownAdapter.astro';
 import PathAnchor from '@/components/PathAnchor.astro';
 import HomeLayout from '@/layouts/HomeLayout.astro';
@@ -11,7 +15,7 @@ const mds = await EasyTryCatch(async () => {
 });
 ---
 
-<HomeLayout>
+<HomeLayout payload={payload}>
 	<div slot="path" id="path">
 		<PathAnchor text="Tips and Welcome!">
 			<img src="/dots.svg" height="20" width="20" alt="" />
@@ -99,7 +103,7 @@ const mds = await EasyTryCatch(async () => {
 				place-items: center;
 			}
 		}
-		& article:hover{
+		& article:hover {
 			box-shadow: 0.2rem 0.2rem 1rem var(--essential-positive);
 			transform: translate(-0.2rem, -0.2rem);
 		}

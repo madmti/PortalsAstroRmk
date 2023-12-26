@@ -1,4 +1,8 @@
 ---
+import { validateStoken } from '@/lib/Actions';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+if (payload) return Astro.redirect('/home');
+
 import Layout from "@/layouts/Layout.astro";
 import LoginSubmitter from '@/components/LogReg/LoginSubmitter';
 import { BACKEND_URL } from "@/public.env";

@@ -1,8 +1,74 @@
 ---
-import HomeLayout from "@/layouts/HomeLayout.astro";
+import { validateStoken } from '@/lib/Actions';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+if (!payload) return Astro.redirect('/');
 
+import HomeLayout from '@/layouts/HomeLayout.astro';
+import PathAnchor from '@/components/PathAnchor.astro';
+import { BACKEND_URL } from '@/public.env';
+import { GetUserServers } from '@/lib/APIcalls';
+
+const servers = await GetUserServers(BACKEND_URL, JSON.stringify(payload));
 ---
 
-<HomeLayout>
-
+<HomeLayout payload={payload}>
+	<div slot="nav" id="nav">
+		<h3>Servers</h3>
+		<ul>
+			{
+				servers?.map((sv) => {
+					return (
+						<PathAnchor
+							text={sv.name.toString()}
+							href={`/servers/${sv._id.toString()}`}
+						>
+							<img src="/global.svg" width="20" height="20" alt="" />
+						</PathAnchor>
+					);
+				})
+			}
+            <PathAnchor text='Add servers' href='/add/server'>
+                <img src="/add.svg" width="20" height="20" alt="">
+            </PathAnchor>
+		</ul>
+	</div>
+	<div slot="path" id="path">
+		<PathAnchor text="Servers">
+			<img src="/group.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+	</div>
+	<div slot="main" id="main">
+		<h3>No server seleted...</h3>
+		<p>go select a server now!</p>
+	</div>
 </HomeLayout>
+
+<style lang="scss">
+	$t: solid 0.2rem red;
+	#main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		height: 100%;
+		width: 100%;
+
+		letter-spacing: 0.1rem;
+	}
+	#nav {
+		display: grid;
+		grid-template-rows: 3rem 1fr;
+		place-items: center;
+
+		height: 100%;
+		width: 100%;
+
+		letter-spacing: 0.1rem;
+
+        & ul{
+            height: 100%;
+            width: 100%;
+        }
+	}
+</style>

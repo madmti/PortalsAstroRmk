@@ -1,10 +1,13 @@
 ---
-import { validateStoken } from '../../../lib/Actions';
+import { validateStoken } from '@/lib/Actions';
 const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
 if (!payload) return Astro.redirect('/');
 
-import HomeLayout from '../../../layouts/HomeLayout.astro';
-import PathAnchor from '../../../components/PathAnchor.astro';
+import HomeLayout from '@/layouts/HomeLayout.astro';
+import PathAnchor from '@/components/PathAnchor.astro';
+import SwitchCheckbox from '@/components/forms/SwitchCheckbox.astro';
+import CreateSubmitter from '@/components/CreateConnect/CreateSubmitter';
+import { BACKEND_URL } from '@/public.env';
 ---
 
 <HomeLayout payload={payload}>
@@ -21,15 +24,101 @@ import PathAnchor from '../../../components/PathAnchor.astro';
 			<img src="/add.svg" width="20" height="20" alt="" />
 		</PathAnchor>
 	</div>
-	<div slot="main" id="main"></div>
-	<div slot="nav" id="nav"></div>
+	<div slot="nav" id="nav">
+		<h3>Let get started.</h3>
+		<p>Public servers will be visible for everyone</p>
+		<br />
+		<p>
+			Private servers will require a invitation link or request to join them
+		</p>
+	</div>
+	<div slot="main" id="main">
+		<form>
+			<h2>Create server</h2>
+			<section class="inputField">
+				<label>Server name</label>
+				<input name="svName" required autocomplete="off" type="text" />
+			</section>
+			<section class="inputField">
+				<label>Description</label>
+				<input name="desc" required autocomplete="off" type="text" />
+			</section>
+			<section class="inputField">
+				<SwitchCheckbox inputName="isPublic" text="Public" checked/>
+			</section>
+			<footer>
+				<button type="submit">Create</button>
+			</footer>
+			<CreateSubmitter URL={BACKEND_URL} userID={payload.user.id.toString()} client:only="react"/>
+		</form>
+	</div>
 </HomeLayout>
 
 <style lang="scss">
+	$t: solid 0.2rem blue;
+	#main {
+		display: grid;
+		place-items: center;
+
+		height: 100%;
+		width: 100%;
+
+		& form {
+			display: grid;
+			grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+
+			height: 80%;
+			width: 50%;
+			& h2 {
+				text-align: center;
+			}
+			& section,
+			footer {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			& section input[type='text'] {
+				padding: 0.5rem 1rem;
+
+				border: 0;
+				border-radius: 1rem;
+
+				text-align: center;
+				font-size: 20px;
+				background-color: var(--background-elevated-base);
+			}
+			& section label {
+				font-size: 24px;
+			}
+			& section input[type='text']:is(:hover, :focus, :valid) {
+				padding: 0.7rem 1.5rem;
+				outline: 0;
+			}
+			& footer button {
+				padding: 0.5rem 1rem;
+
+				border: 0;
+				border-radius: 1rem;
+
+				cursor: pointer;
+				background-color: var(--background-elevated-base);
+			}
+			& footer button:hover {
+				background-color: var(--essential-positive);
+			}
+		}
+	}
 	#path {
 		display: flex;
 		align-items: center;
 
 		gap: 10px;
+	}
+	#nav {
+		width: 70%;
+
+		letter-spacing: 0.1rem;
 	}
 </style>

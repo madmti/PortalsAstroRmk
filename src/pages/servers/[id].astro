@@ -1,20 +1,21 @@
 ---
 export const prerender = false;
 
-import { validateStoken } from '../../lib/Actions';
+import { validateStoken } from '@/lib/Actions';
 const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
 const { id } = Astro.params;
 if (!payload || !id) return Astro.redirect('/');
 
-import HomeLayout from '../../layouts/HomeLayout.astro';
-import PathAnchor from '../../components/PathAnchor.astro';
-import { BACKEND_URL } from '../../public.env';
-import { GetServerChannels } from '../../lib/APIcalls';
+import HomeLayout from '@/layouts/HomeLayout.astro';
+import PathAnchor from '@/components/PathAnchor.astro';
+import { BACKEND_URL } from '@/public.env';
+import { GetServerChannels } from '@/lib/APIcalls';
 const { server, channels } = await GetServerChannels(
 	BACKEND_URL,
 	JSON.stringify(payload),
 	id
 );
+const isSuper = server.super?.toString() === payload.user.id.toString();
 ---
 
 <HomeLayout payload={payload}>
@@ -35,6 +36,14 @@ const { server, channels } = await GetServerChannels(
                     );
                 })
             }
+			{
+				isSuper
+				?
+				<PathAnchor text='Add channel' href={`/add/channel/${id}`}>
+					<img src="/add.svg" width="20" height="20" alt="">
+				</PathAnchor>
+				: ''
+			}
         </ul>
     </div>
 	<div slot="path" id="path">

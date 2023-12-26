@@ -1,9 +1,11 @@
-import React from 'react';
+import './VoiceCallReact.scss';
 export default function VoiceCallReact(){
 
     return(
-        <section>
-            voice nigga
-        </section>
+        <div id='voiceChat'>
+            <section>
+                
+            </section>
+        </div>
     )
 };

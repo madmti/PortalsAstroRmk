@@ -1,9 +1,11 @@
-import React from 'react';
+import './VideoCallReact.scss';
 export default function VideoCallReact(){
 
     return(
-        <section>
-            VIDEO NIGGA
-        </section>
+        <div id='videoChat'>
+            <section>
+                
+            </section>
+        </div>
     );
 };

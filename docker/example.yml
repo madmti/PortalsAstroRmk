@@ -2,13 +2,16 @@ version: '3.9'
 
 services:
   astro:
+    restart: unless-stopped
+    volumes:
+      - ./PortalsAstroRmk:/app
     build:
       context: ./PortalsAstroRmk
       dockerfile: ./docker/dev.dockerfile
     ports:
       - "4321:4321"
     environment:
-      - BACKEND_URL_REST=http://YOUR_IP_ADDRES:3000 ########## edit
+      - BACKEND_URL_REST=http://YOUR_IP_ADDRES:3000 ############# edit
 
   restapi:
     depends_on:
@@ -18,9 +21,11 @@ services:
       - "3000:3000"
     entrypoint: ["sh", "entrypoint.sh"]
     environment:
-      - DB_URI=mongodb://YOUR_IP_ADDRES:27017/ ########## edit
+      - DB_URI=mongodb://YOUR_IP_ADDRES:27017/ ############# edit
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
+    restart: unless-stopped
+
 
   mongo:
     image: mongo
@@ -29,3 +34,4 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
+    attach: false

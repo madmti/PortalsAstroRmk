@@ -58,4 +58,18 @@ const { title } = Astro.props;
 	::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active {
 		background: var(--text-bright-accent);
 	}
+	.mdColors{
+		& a, a>em{
+			color: var(--text-announcement);
+		}
+		& strong{
+			color: var(--text-positive);
+		}
+		& em{
+			color: var(--text-violet);
+		}
+		& em > strong{
+			color: var(--text-warning);
+		}
+	}
 </style>

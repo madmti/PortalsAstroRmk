@@ -58,9 +58,15 @@ const servers = await GetServersByQuery(BACKEND_URL, JSON.stringify(payload), {
 		<article>
 			<ul>
 				{
-					servers.map((sv) => {
-						return <ServerJoinCard server={sv} userServerList={userServers} />;
-					})
+					servers ? (
+						servers.map((sv) => {
+							return (
+								<ServerJoinCard server={sv} userServerList={userServers} />
+							);
+						})
+					) : (
+						<p>No public servers yet..</p>
+					)
 				}
 			</ul>
 		</article>
@@ -71,11 +77,11 @@ const servers = await GetServersByQuery(BACKEND_URL, JSON.stringify(payload), {
 				<button type="submit"><p>Join</p></button>
 			</form>
 		</footer>
-        <JoinSubmitter
-            URL={BACKEND_URL}
-            userID={payload.user.id.toString()}
-            client:only="react"
-        />
+		<JoinSubmitter
+			URL={BACKEND_URL}
+			userID={payload.user.id.toString()}
+			client:only="react"
+		/>
 	</div>
 </HomeLayout>
 

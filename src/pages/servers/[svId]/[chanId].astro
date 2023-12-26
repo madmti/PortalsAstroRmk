@@ -1,15 +1,18 @@
 ---
 export const prerender = false;
 
-import { validateStoken } from '../../../lib/Actions';
+import { validateStoken } from '@/lib/Actions';
 const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
 const { svId, chanId } = Astro.params;
 if (!payload || !svId || !chanId) return Astro.redirect('/');
 
-import HomeLayout from '../../../layouts/HomeLayout.astro';
-import PathAnchor from '../../../components/PathAnchor.astro';
-import { BACKEND_URL } from '../../../public.env';
-import { GetChannelInfo } from '../../../lib/APIcalls';
+import HomeLayout from '@/layouts/HomeLayout.astro';
+import PathAnchor from '@/components/PathAnchor.astro';
+import ChatReact from '@/components/Channels/ChatReact';
+import VoiceCallReact from '@/components/Channels/VoiceCallReact';
+import VideoCallReact from '@/components/Channels/VideoCallReact';
+import { BACKEND_URL } from '@/public.env';
+import { GetChannelInfo } from '@/lib/APIcalls';
 
 const { server, channel } = await GetChannelInfo(
 	BACKEND_URL,
@@ -39,12 +42,26 @@ const is = {
 			<img src={is[channel.is] || '/dots.svg'} width="20" height="20" alt="" />
 		</PathAnchor>
 	</div>
-	<div slot="nav" id="nav">
-        navigation por hacer
-    </div>
+	<div slot="nav" id="nav">navigation por hacer</div>
 	<div slot="main" id="main">
-        chat react por hacer
-    </div>
+		{
+			channel.is === 'text' ? (
+				<ChatReact
+					client:only="react"
+					chanID={chanId}
+					serverID={svId}
+					userID={payload.user.id.toString()}
+					URL={BACKEND_URL}
+				/>
+			) : channel.is === 'voice' ? (
+				<VoiceCallReact client:only="react" />
+			) : channel.is === 'video' ? (
+				<VideoCallReact client:only="react" />
+			) : (
+				'error'
+			)
+		}
+	</div>
 </HomeLayout>
 
 <style lang="scss">
@@ -53,5 +70,13 @@ const is = {
 		align-items: center;
 
 		gap: 10px;
+	}
+	#main {
+		display: flex;
+		align-items: end;
+		justify-content: center;
+
+		height: 100%;
+		width: 100%;
 	}
 </style>

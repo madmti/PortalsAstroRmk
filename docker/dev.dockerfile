@@ -14,7 +14,6 @@ RUN npm --version
 
 RUN npm install
 
-ENV BACKEND_URL_REST = http://192.168.0.5:3000/
-
 EXPOSE 4321
-RUN bun serve
+
+ENTRYPOINT [ "sh", "deventry.sh" ]

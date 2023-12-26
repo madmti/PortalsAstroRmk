@@ -1,0 +1,35 @@
+---
+import { validateStoken } from '../../../lib/Actions';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+if (!payload) return Astro.redirect('/');
+
+import HomeLayout from '../../../layouts/HomeLayout.astro';
+import PathAnchor from '../../../components/PathAnchor.astro';
+---
+
+<HomeLayout payload={payload}>
+	<div slot="path" id="path">
+		<PathAnchor href="/servers" text="Servers">
+			<img src="/group.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor href="/add/server" text="Connect & Create">
+			<img src="/dots.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor text="Create Server">
+			<img src="/add.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+	</div>
+	<div slot="main" id="main"></div>
+	<div slot="nav" id="nav"></div>
+</HomeLayout>
+
+<style lang="scss">
+	#path {
+		display: flex;
+		align-items: center;
+
+		gap: 10px;
+	}
+</style>

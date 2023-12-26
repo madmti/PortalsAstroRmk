@@ -1,0 +1,80 @@
+---
+import type { Server } from '@/lib/Types';
+interface Props {
+	server: Server;
+	userServerList: Server[];
+}
+const { server, userServerList } = Astro.props;
+
+const isIn = userServerList.some(
+	(sv) => sv._id.toString() === server._id.toString()
+);
+//@ts-ignore
+const owner = server.super !== undefined?server.super.name:'PORTALS';
+---
+
+<form id="formCard">
+	<h3>
+		{server.name}{
+			!isIn ? (
+				<button type="submit">Join</button>
+			) : (
+				<button type="button" disabled>
+					Already in
+				</button>
+			)
+		}
+	</h3>
+    <p>{server.description}</p>
+    <input type="hidden" name="serverID" value={server._id.toString()}>
+    <small>by {owner}</small>
+</form>
+
+<style lang="scss">
+    form{
+        min-width: 10rem;
+        min-height: 10rem;
+        max-width: 20rem;
+        max-height: 20rem;
+
+        border-radius: 1rem;
+        padding: 0.5rem 1rem;
+
+        letter-spacing: 0.1rem;
+        box-shadow: 0.2rem 0.2rem 0.2rem black;
+        background-color: var(--background-elevated-base);
+
+        & h3{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            margin-bottom: 1rem;
+
+            gap: 1rem;
+        }
+        & small{
+            color: var(--text-announcement);
+        }
+    }
+    form:hover{
+        transform: translate(-0.2rem, -0.2rem);
+        box-shadow: 0.4rem 0.4rem 0.4rem black;
+    }
+    button{
+        padding: 0.5rem 1rem;
+
+        border: 0;
+        border-radius: 0.5rem;
+        
+        cursor: pointer;
+        background-color: var(--background-elevated-highlight);
+    }
+    button:hover:is([type=submit]){
+        background-color: var(--essential-positive);
+    }
+    button:hover:not([type=submit]){
+        background-color: var(--background-tinted-highlight);
+    }
+</style>

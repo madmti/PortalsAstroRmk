@@ -1,0 +1,68 @@
+---
+//@ts-nocheck
+import { validateStoken } from '../../lib/Actions';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+if (!payload) return Astro.redirect('/');
+
+import HomeLayout from '../../layouts/HomeLayout.astro';
+import PathAnchor from '../../components/PathAnchor.astro';
+---
+
+<HomeLayout payload={payload}>
+	<div slot="path" id="path">
+		<PathAnchor href="/servers" text="Servers">
+			<img src="/group.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor text="Connect & Create">
+			<img src="/dots.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+	</div>
+	<div slot="main" id="main">
+		<PathAnchor
+			color0="#242424"
+			color1="var(--essential-positive)"
+			text="Join a server"
+			style="font-size:24px;"
+            href='/add/server/join'
+		/>
+		 or
+		<PathAnchor
+			color0="#242424"
+			color1="var(--essential-positive)"
+			text="Create a new one"
+			style="font-size:24px;"
+            href='/add/server/create'
+		/>
+	</div>
+	<div slot="nav" id="nav">
+		<h3>Hi there!</h3>
+		<p>havent servers added yet?, go join one now!</p>
+		<br />
+	</div>
+</HomeLayout>
+
+<style lang="scss">
+	#path {
+		display: flex;
+		align-items: center;
+
+		gap: 10px;
+	}
+	#main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		height: 100%;
+		width: 100%;
+
+		gap: 10px;
+	}
+    #nav{
+        width: 70%;
+
+        letter-spacing: 0.1rem;
+    }
+</style>

@@ -6,7 +6,14 @@ import LogoutButton from '@/components/HomeLayout/LogoutButton';
 import ReactMainManager from '@/components/HomeLayout/LocalManager/ReactMainManager';
 import ManagerPosChanger from '@/components/HomeLayout/LocalManager/ManagerPosChanger';
 
+import { type JwtPayload } from 'jsonwebtoken';
 import { BACKEND_URL } from '@/public.env';
+
+interface Props {
+	payload: JwtPayload;
+}
+
+const { payload } = Astro.props;
 
 const isServerPath =
 	(Astro.url.pathname.split('/')[1] &&
@@ -22,7 +29,7 @@ const isServerPath =
 		<header id="mainheader">
 			<section id="L">
 				<GoodTime client:load />
-				<h3>USER#OFFLINE</h3>
+				<h3>{payload.user.name}</h3>
 				<LatencyCheck client:load />
 			</section>
 			<section id="mid">
@@ -43,7 +50,7 @@ const isServerPath =
 				<ManagerPosChanger
 					text="Servers"
 					position="servers"
-					anchor={isServerPath?null:'/servers'}
+					anchor={isServerPath ? null : '/servers'}
 					client:load
 				/>
 				<ManagerPosChanger

@@ -14,7 +14,6 @@ type SvResponse = {
 
 export default function LoginSubmitter({ URL }: { URL: string }) {
 	const [msg, setMsg] = useState('');
-
 	const onSubmit = async (ev: SubmitEvent) => {
 		ev.preventDefault();
 		//@ts-ignore

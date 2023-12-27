@@ -1,0 +1,162 @@
+---
+export const prerender = false;
+
+import { validateStoken } from '../../../../lib/Actions';
+import { GetServersByQuery } from '../../../../lib/APIcalls';
+import { BACKEND_URL } from '../../../../public.env';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+const { id } = Astro.params;
+if (!payload || !id) return Astro.redirect('/');
+const server = (
+	await GetServersByQuery(BACKEND_URL, JSON.stringify(payload), {
+		_id: id,
+	})
+)[0];
+//@ts-ignore
+const isSuper = server.super._id.toString() === payload.user.id.toString();
+if (!isSuper) return Astro.redirect('/servers');
+
+import HomeLayout from '../../../../layouts/HomeLayout.astro';
+import PathAnchor from '../../../../components/PathAnchor.astro';
+import CreateSubmitter from '../../../../components/ChannelsBridges/CreateSubmitter';
+---
+
+<HomeLayout payload={payload}>
+	<div slot="path" id="path">
+		<PathAnchor href="/servers" text="Servers">
+			<img src="/group.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor
+			href={`/servers/${server._id.toString()}`}
+			text={server.name.toString()}
+		>
+			<img src="/group.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor href={`/add/channel/${id}`} text="Channels & Bridges">
+			<img src="/dots.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor text="Create channel">
+			<img src="/add.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+	</div>
+	<div slot="nav" id="nav" class="mdColors">
+		<h3>Hi there!</h3>
+		<p>
+			Here you can create <strong>channels</strong> of any type, inlcuding <em
+				><strong>bridges!</strong></em>
+		</p>
+		<br />
+		<p>
+			Make sure <em>you know where</em> are you sending <em
+				><strong>bridge</strong></em
+			> requests.
+		</p>
+	</div>
+	<div slot="main" id="main">
+		<form action="">
+			<h2>Create channel</h2>
+			<section>
+				<label for="chan">Channel name</label>
+				<input required autocomplete="off" type="text" name="chan" />
+			</section>
+			<section class="select">
+				<label for="type">Type</label>
+				<select required name="is" id="">
+					<option value="text">Text</option>
+					<option value="voice">Voice</option>
+					<option value="video">Video</option>
+				</select>
+			</section>
+			<footer>
+				<button type="submit">Create</button>
+			</footer>
+			<CreateSubmitter
+				URL={BACKEND_URL}
+				userID={payload.user.id.toString()}
+				svID={id}
+                client:only="react"
+			/>
+		</form>
+	</div>
+</HomeLayout>
+
+<style lang="scss">
+	#path {
+		display: flex;
+		align-items: center;
+
+		gap: 10px;
+	}
+	#nav {
+		width: 80%;
+
+		letter-spacing: 0.1rem;
+	}
+	#main {
+		display: grid;
+		place-items: center;
+
+		height: 100%;
+		width: 100%;
+
+		& form {
+			display: grid;
+			grid-template-rows: 1fr 1fr 1fr 1fr;
+
+			height: 80%;
+			width: 50%;
+
+			& h2 {
+				text-align: center;
+			}
+			& section,
+			footer {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			& section input[type='text'] {
+				padding: 0.5rem 1rem;
+
+				border: 0;
+				border-radius: 1rem;
+
+				text-align: center;
+				font-size: 20px;
+				background-color: var(--background-elevated-base);
+			}
+			& section input[type='text']:is(:hover, :focus, :valid) {
+				padding: 0.7rem 1.5rem;
+				outline: 0;
+			}
+			& section.select {
+				position: relative;
+
+				& select {
+					cursor: pointer;
+					outline: 0;
+					border: 0;
+					font-size: 20px;
+					padding: 0.2rem;
+					background-color: var(--background-elevated-base);
+				}
+			}
+			& footer button {
+				padding: 0.5rem 1rem;
+
+				border: 0;
+				border-radius: 1rem;
+
+				cursor: pointer;
+				background-color: var(--background-elevated-base);
+			}
+			& footer button:hover {
+				background-color: var(--essential-positive);
+			}
+		}
+	}
+</style>

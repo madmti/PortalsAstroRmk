@@ -1,0 +1,16 @@
+
+div#chatnav{
+    display: grid;
+    grid-template-rows: 3rem 1fr;
+    place-items: center;
+
+    height: 100%;
+    width: 100%;
+
+    letter-spacing: 0.1rem;
+
+    & ul{
+        height: 100%;
+        width: 100%;
+    }
+}

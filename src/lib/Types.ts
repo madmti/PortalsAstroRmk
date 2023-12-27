@@ -42,7 +42,7 @@ export type Server = {
 export type UserData = {
     _id: String,
     alias: String | null,
-    name: String | null,
+    name: String,
     imgUrl: String | null,
     servers: Server[] | null,
     created: Number

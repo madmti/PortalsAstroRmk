@@ -56,7 +56,6 @@ const servers = await GetServersByQuery(BACKEND_URL, JSON.stringify(payload), {
 			<h3>Public servers</h3>
 		</header>
 		<article>
-			<ul>
 				{
 					servers ? (
 						servers.map((sv) => {
@@ -68,7 +67,6 @@ const servers = await GetServersByQuery(BACKEND_URL, JSON.stringify(payload), {
 						<p>No public servers yet..</p>
 					)
 				}
-			</ul>
 		</article>
 		<footer>
 			<form autocomplete="off" id="formID">

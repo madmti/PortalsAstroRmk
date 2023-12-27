@@ -1,0 +1,73 @@
+---
+export const prerender = false;
+
+import { validateStoken } from '../../../../lib/Actions';
+import { GetServersByQuery } from '../../../../lib/APIcalls';
+import { BACKEND_URL } from '../../../../public.env';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+const { id } = Astro.params;
+if (!payload || !id) return Astro.redirect('/');
+const server = (await GetServersByQuery(BACKEND_URL, JSON.stringify(payload), {
+	_id: id,
+}))[0];
+//@ts-ignore
+const isSuper = server.super._id.toString() === payload.user.id.toString();
+if (!isSuper) return Astro.redirect('/servers');
+
+import HomeLayout from '../../../../layouts/HomeLayout.astro';
+import PathAnchor from '../../../../components/PathAnchor.astro';
+---
+
+<HomeLayout payload={payload}>
+    <div slot="path" id="path">
+		<PathAnchor href="/servers" text="Servers">
+			<img src="/group.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+        <img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor href={`/servers/${server._id.toString()}`} text={server.name.toString()}>
+			<img src="/group.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor href={`/add/channel/${id}`} text="Channels & Bridges">
+			<img src="/dots.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+		<img src="/pac.svg" width="15" height="15" alt="" />
+		<PathAnchor text="Bridge request">
+			<img src="/portal_base.svg" width="20" height="20" alt="" />
+		</PathAnchor>
+    </div>
+	<div slot="nav" id="nav" class="mdColors">
+		<h3>Hi there!</h3>
+		<p>Here you can create <strong>channels</strong> of any type, inlcuding <em><strong>bridges!</strong></em></p>
+		<br />
+		<p>Make sure <em>you know where</em> are you sending <em><strong>bridge</strong></em> requests.</p>
+	</div>
+	<div slot="main" id="main">
+
+	</div>
+</HomeLayout>
+
+<style lang="scss">
+	#path {
+		display: flex;
+		align-items: center;
+
+		gap: 10px;
+	}
+    #nav{
+        width: 80%;
+
+        letter-spacing: 0.1rem;
+    }
+	#main{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		height: 100%;
+		width: 100%;
+
+		gap: 10px;
+	}
+</style>

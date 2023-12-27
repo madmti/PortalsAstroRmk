@@ -77,7 +77,7 @@ const servers = await GetServersByQuery(BACKEND_URL, JSON.stringify(payload), {
 		</footer>
 		<JoinSubmitter
 			URL={BACKEND_URL}
-			userID={payload.user.id.toString()}
+			userID={payload.user._id.toString()}
 			client:only="react"
 		/>
 	</div>

@@ -1,10 +1,8 @@
 import { decode, type JwtPayload } from 'jsonwebtoken';
+import type { UserData } from './Types';
 declare module 'jsonwebtoken' {
 	interface JwtPayload {
-		user: {
-			id: string;
-			name: string;
-		};
+		user: UserData;
 		auth: {
 			date: Date;
 		};

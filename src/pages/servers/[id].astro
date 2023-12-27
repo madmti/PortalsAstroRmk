@@ -15,7 +15,7 @@ const { server, channels } = await GetServerChannels(
 	JSON.stringify(payload),
 	id
 );
-const isSuper = server.super?.toString() === payload.user.id.toString();
+const isSuper = server.super?.toString() === payload.user._id.toString();
 ---
 
 <HomeLayout payload={payload}>
@@ -52,7 +52,7 @@ const isSuper = server.super?.toString() === payload.user.id.toString();
 		</PathAnchor>
 		<img src="/pac.svg" width="15" height="15" alt="" />
 		<PathAnchor text={server.name.toString()}>
-			<img src="/group.svg" width="20" height="20" alt="" />
+			<img src="/global.svg" width="20" height="20" alt="" />
 		</PathAnchor>
 	</div>
 	<div slot="main" id="main">

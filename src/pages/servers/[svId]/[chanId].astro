@@ -45,7 +45,7 @@ const is = {
 	<div slot="nav" id="nav">
 		{
 			channel.is === 'text' ? (
-				<ChatReactNav client:only="react" userID={payload.user.id.toString()} />
+				<ChatReactNav client:only="react" userID={payload.user._id.toString()} />
 			) : channel.is === 'voice' ? (
 				'voice nav'
 			) : channel.is === 'video' ? (
@@ -62,7 +62,7 @@ const is = {
 					client:only="react"
 					chanID={chanId}
 					serverID={svId}
-					userID={payload.user.id.toString()}
+					userID={payload.user._id.toString()}
 					URL={BACKEND_URL}
 					WSDIR={WEBSOCKET_URL}
 				/>

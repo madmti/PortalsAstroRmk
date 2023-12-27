@@ -1,0 +1,30 @@
+$t:solid 0.2rem red;
+$r:solid 0.2rem blue;
+section#usersection{
+    display: flex;
+    justify-content: center;
+
+    height: 74vh;
+    width: 100%;
+
+    overflow: hidden auto;
+    letter-spacing: 0.1rem;
+
+    & div.scroll{
+        width: 70%;
+        height: auto;
+
+        padding: 1rem 0;
+
+        outline: $t;
+        & header{
+            display: flex;
+            align-items: center;
+
+            padding-left: 2rem;
+            gap: 1rem;
+
+            outline: $r;
+        }
+    }
+}

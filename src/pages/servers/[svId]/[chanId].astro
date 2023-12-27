@@ -9,9 +9,10 @@ if (!payload || !svId || !chanId) return Astro.redirect('/');
 import HomeLayout from '@/layouts/HomeLayout.astro';
 import PathAnchor from '@/components/PathAnchor.astro';
 import ChatReact from '@/components/Channels/ChatReact';
+import ChatReactNav from '@/components/Channels/navs/ChatReacNav';
 import VoiceCallReact from '@/components/Channels/VoiceCallReact';
 import VideoCallReact from '@/components/Channels/VideoCallReact';
-import { BACKEND_URL } from '@/public.env';
+import { BACKEND_URL, WEBSOCKET_URL } from '@/public.env';
 import { GetChannelInfo } from '@/lib/APIcalls';
 
 const { server, channel } = await GetChannelInfo(
@@ -20,7 +21,6 @@ const { server, channel } = await GetChannelInfo(
 	svId,
 	chanId
 );
-
 const is = {
 	text: '/text.svg',
 	voice: '/micOn.svg',
@@ -42,7 +42,19 @@ const is = {
 			<img src={is[channel.is] || '/dots.svg'} width="20" height="20" alt="" />
 		</PathAnchor>
 	</div>
-	<div slot="nav" id="nav">navigation por hacer</div>
+	<div slot="nav" id="nav">
+		{
+			channel.is === 'text' ? (
+				<ChatReactNav client:only="react" userID={payload.user.id.toString()} />
+			) : channel.is === 'voice' ? (
+				<VoiceCallReact client:only="react" />
+			) : channel.is === 'video' ? (
+				<VideoCallReact client:only="react" />
+			) : (
+				'error'
+			)
+		}
+	</div>
 	<div slot="main" id="main">
 		{
 			channel.is === 'text' ? (
@@ -52,6 +64,7 @@ const is = {
 					serverID={svId}
 					userID={payload.user.id.toString()}
 					URL={BACKEND_URL}
+					WSDIR={WEBSOCKET_URL}
 				/>
 			) : channel.is === 'voice' ? (
 				<VoiceCallReact client:only="react" />
@@ -70,6 +83,13 @@ const is = {
 		align-items: center;
 
 		gap: 10px;
+	}
+	#nav {
+		display: grid;
+		place-items: center;
+
+		height: 100%;
+		width: 100%;
 	}
 	#main {
 		display: flex;

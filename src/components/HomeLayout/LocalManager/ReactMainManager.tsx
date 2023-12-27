@@ -12,7 +12,7 @@ export default function ReactMainManager({
 		servers: children,
 		music: 'music',
 		events: 'events',
-		friends: 'friends',
+		user: 'user',
 	};
 	return <>{Contents[position] ? Contents[position] : 'Error'}</>;
 }

@@ -3,7 +3,7 @@ import './LogoutButton.scss';
 
 export default function Logout() {
 	const handleClick = () => {
-		document.cookie = 'portals:stoken=deleted';
+		document.cookie = 'portals:stoken=deleted;path=/';
 		location.pathname = '/';
 	};
 	return (

@@ -47,9 +47,9 @@ const is = {
 			channel.is === 'text' ? (
 				<ChatReactNav client:only="react" userID={payload.user.id.toString()} />
 			) : channel.is === 'voice' ? (
-				<VoiceCallReact client:only="react" />
+				'voice nav'
 			) : channel.is === 'video' ? (
-				<VideoCallReact client:only="react" />
+				'video nav'
 			) : (
 				'error'
 			)

@@ -11,7 +11,8 @@ services:
     ports:
       - "4321:4321"
     environment:
-      - BACKEND_URL_REST=http://YOUR_IP_ADDRES:3000 ############# edit
+      - BACKEND_URL_REST=http://YOUR_IP_ADRRES:3000 ####### edit
+      - WEBSOCKET_URL=http://YOUR_IP_ADRRES:5000 ####### edit
 
   restapi:
     depends_on:
@@ -21,17 +22,30 @@ services:
       - "3000:3000"
     entrypoint: ["sh", "entrypoint.sh"]
     environment:
-      - DB_URI=mongodb://YOUR_IP_ADDRES:27017/ ############# edit
+      - DB_URI=mongodb://YOUR_IP_ADRRES:27027/ ####### edit
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
     restart: unless-stopped
 
+  websocket:
+    depends_on:
+      - mongo
+    build: ./PortalsWebSocket
+    ports:
+      - "5000:5000"
+    entrypoint: ["sh", "entrypoint.sh"]
+    environment:
+      - DB_URI=mongodb://YOUR_IP_ADRRES:27027/ ####### edit
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
+    restart: unless-stopped
 
   mongo:
     image: mongo
     ports:
-      - "27017:27017"
+      - "27027:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
     attach: false
+    restart: unless-stopped

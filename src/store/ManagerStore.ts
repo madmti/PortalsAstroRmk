@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type Position = 'servers' | 'music' | 'events' | 'friends';
+export type Position = 'servers' | 'music' | 'events' | 'user';
 
 type ManagerStore = {
 	pos: Position;

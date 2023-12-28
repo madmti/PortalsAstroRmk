@@ -66,8 +66,8 @@ const isServerPath =
 					client:load
 				/>
 				<ManagerPosChanger
-					text="Friends"
-					position="friends"
+					text="User"
+					position="user"
 					anchor={null}
 					client:load
 				/>
@@ -82,13 +82,13 @@ const isServerPath =
 				<slot name="path" />
 			</header>
 			<article>
-				<ReactMainManager BACKEND_URL={BACKEND_URL} client:load>
+				<ReactMainManager payload={payload} BACKEND_URL={BACKEND_URL} client:load>
 					<slot name="main" />
 				</ReactMainManager>
 			</article>
 		</main>
 		<aside>
-			<img src="/madmti.png" height="50" width="50" alt="" />
+			<img src={payload.user.imgUrl === null?'/portal.svg':`${BACKEND_URL}/${payload.user.imgUrl}`} height="50" width="50" alt="" />
 			<div>mic</div>
 			<div>aud</div>
 			<div>con</div>

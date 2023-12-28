@@ -9,10 +9,11 @@ export default function ChatReactNav({ userID }: { userID: string }) {
 		<div id="chatnav">
 			<h3>Users</h3>
 			<ul>
-				{TextChannelStore.users?.map((user) => {
+				{TextChannelStore.users?.map((user, idx) => {
 					const isMe = user._id.toString() === userID;
 					return (
 						<ReactPathAnchor
+							key={idx}
 							style={isMe ? { color: 'var(--text-positive)' } : {}}
 							text={user.alias ? user.alias.toString() : user.name.toString()}
 						>

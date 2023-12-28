@@ -1,8 +1,9 @@
-import { useTextChannelStore } from '@/store/ChannelStore';
 import './ChatReact.scss';
+import { useTextChannelStore } from '@/store/ChannelStore';
 import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { TextChannelSetEventHandlers } from '@/lib/socket/Actions';
+import ChatLock from '@/components/Channels/ChatLock';
 
 export default function ChatReact({
 	chanID,
@@ -92,6 +93,7 @@ export default function ChatReact({
 					handleSubmit(ev);
 				}}
 			>
+				<ChatLock />
 				<input
 					placeholder="Send a message.."
 					autoFocus

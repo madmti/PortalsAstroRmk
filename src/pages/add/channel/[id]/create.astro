@@ -13,7 +13,7 @@ const server = (
 	})
 )[0];
 //@ts-ignore
-const isSuper = server.super._id.toString() === payload.user.id.toString();
+const isSuper = server.super._id.toString() === payload.user._id.toString();
 if (!isSuper) return Astro.redirect('/servers');
 
 import HomeLayout from '../../../../layouts/HomeLayout.astro';
@@ -75,7 +75,7 @@ import CreateSubmitter from '../../../../components/ChannelsBridges/CreateSubmit
 			</footer>
 			<CreateSubmitter
 				URL={BACKEND_URL}
-				userID={payload.user.id.toString()}
+				userID={payload.user._id.toString()}
 				svID={id}
                 client:only="react"
 			/>

@@ -35,7 +35,7 @@ const is = {
 		</PathAnchor>
 		<img src="/pac.svg" width="15" height="15" alt="" />
 		<PathAnchor text={server.name.toString()} href={`/servers/${svId}`}>
-			<img src="/group.svg" width="20" height="20" alt="" />
+			<img src="/global.svg" width="20" height="20" alt="" />
 		</PathAnchor>
 		<img src="/pac.svg" width="15" height="15" alt="" />
 		<PathAnchor text={channel.name.toString()}>
@@ -45,11 +45,11 @@ const is = {
 	<div slot="nav" id="nav">
 		{
 			channel.is === 'text' ? (
-				<ChatReactNav client:only="react" userID={payload.user.id.toString()} />
+				<ChatReactNav client:only="react" userID={payload.user._id.toString()} />
 			) : channel.is === 'voice' ? (
-				<VoiceCallReact client:only="react" />
+				'voice nav'
 			) : channel.is === 'video' ? (
-				<VideoCallReact client:only="react" />
+				'video nav'
 			) : (
 				'error'
 			)
@@ -62,7 +62,7 @@ const is = {
 					client:only="react"
 					chanID={chanId}
 					serverID={svId}
-					userID={payload.user.id.toString()}
+					userID={payload.user._id.toString()}
 					URL={BACKEND_URL}
 					WSDIR={WEBSOCKET_URL}
 				/>

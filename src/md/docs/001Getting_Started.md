@@ -24,6 +24,10 @@ In **PORTALS** menu you will have 2 ***Navigations*** at the same time:
 
     the global navigation is the **Server** and **Channel** switch, where you can also create, join and leave this 2.
 
+    ![global nav](/screens/globalnav.png)
+    
 - ***Local*** nav
 
     the local navigation is the **Music** and **Event** sections switch. the local nav is ***always running on background*** so you can do other stuff while leaving music or/and events on background.
+
+    ![global nav](/screens/localnav.png)

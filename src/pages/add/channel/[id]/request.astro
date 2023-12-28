@@ -11,7 +11,7 @@ const server = (await GetServersByQuery(BACKEND_URL, JSON.stringify(payload), {
 	_id: id,
 }))[0];
 //@ts-ignore
-const isSuper = server.super._id.toString() === payload.user.id.toString();
+const isSuper = server.super._id.toString() === payload.user._id.toString();
 if (!isSuper) return Astro.redirect('/servers');
 
 import HomeLayout from '../../../../layouts/HomeLayout.astro';

@@ -10,21 +10,67 @@ section#usersection{
     overflow: hidden auto;
     letter-spacing: 0.1rem;
 
+    & button{
+        display: flex;
+        align-items: center;
+
+        border: 0;
+        border-radius: 0.5rem;
+        
+        padding: 0.2rem;
+
+        cursor: pointer;
+        background-color: var(--background-elevated-base);
+    }
+    & button.t{
+        background-color: transparent;
+    }
+    & button:hover{
+        background-color: var(--essential-positive);
+    }
+    & button#red:hover{
+        background-color: var(--essential-negative);
+    }
+    & button#blue:hover{
+        background-color: var(--essential-announcement);
+    }
+
     & div.scroll{
         width: 70%;
         height: auto;
 
         padding: 1rem 0;
 
-        outline: $t;
         & header{
             display: flex;
             align-items: center;
 
-            padding-left: 2rem;
+            padding: 2rem;
             gap: 1rem;
+        }
+        & article{
+            padding: 1rem 2rem;
 
-            outline: $r;
+            & h3{
+                display: flex;
+                align-items: center;
+
+                gap: 1rem;
+            }
+
+            & ul{
+                width: 100%;
+
+                & li{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    width: 100%;
+
+
+                }
+            }
         }
     }
 }

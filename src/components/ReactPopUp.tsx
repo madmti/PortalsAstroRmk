@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default function ReactPopUp(){
+export default function ReactPopUp({children}:{children:any}){
 
     return(
-        <button >
-            edit
+        <button id='blue'>
+            {children}
         </button>
     );
 };

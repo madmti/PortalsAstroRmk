@@ -1,6 +1,8 @@
 import './UserSection.scss';
 import type { JwtPayload } from 'jsonwebtoken';
-import ReactPopUp from '@/components/ReactPopUp';
+import FriendsList from './FriendsList';
+import UserInfo from './UserInfo';
+
 export default function UserSection({
 	payload,
 	URL,
@@ -11,21 +13,8 @@ export default function UserSection({
 	return (
 		<section id="usersection">
 			<div className="scroll">
-				<header>
-					<img
-						src={
-							payload.user.imgUrl === null
-								? '/portal.svg'
-								: `${URL}/${payload.user.imgUrl}`
-						}
-						width={80}
-						height={80}
-						alt=""
-					/>
-					<h3>{payload.user.name}</h3>
-					<ReactPopUp />
-				</header>
-				<article></article>
+				<UserInfo payload={payload} URL={URL}/>
+				<FriendsList payload={payload}/>
 			</div>
 		</section>
 	);

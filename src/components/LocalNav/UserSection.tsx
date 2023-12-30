@@ -2,7 +2,7 @@ import './UserSection.scss';
 import type { JwtPayload } from 'jsonwebtoken';
 import FriendsList from './FriendsList';
 import UserInfo from './UserInfo';
-
+import UserRequests from './UserRequests';
 export default function UserSection({
 	payload,
 	URL,
@@ -13,8 +13,9 @@ export default function UserSection({
 	return (
 		<section id="usersection">
 			<div className="scroll">
-				<UserInfo payload={payload} URL={URL}/>
-				<FriendsList payload={payload}/>
+				<UserInfo payload={payload} URL={URL} />
+				<UserRequests />
+				<FriendsList payload={payload} />
 			</div>
 		</section>
 	);

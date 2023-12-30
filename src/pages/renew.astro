@@ -1,0 +1,14 @@
+---
+import { validateStoken, renewTokenRequest } from '@/lib/Actions';
+import { BACKEND_URL } from '@/public.env';
+import ReactSetCookie from '@/components/ReactSetCookie';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+if (!payload) return Astro.redirect('/');
+const data = await renewTokenRequest(BACKEND_URL, JSON.stringify(payload));
+if (!data.status) {
+	Astro.cookies.delete('portals:stoken');
+	return Astro.redirect('/');
+}
+---
+
+<ReactSetCookie client:only="react" cookie={data.cookie} redirect={'/home'} />

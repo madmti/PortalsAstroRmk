@@ -47,6 +47,49 @@ section#usersection{
 
             padding: 2rem;
             gap: 1rem;
+
+            & form#pop{
+                
+                & input{
+                    margin: 1rem;
+                }
+                & input[type=text]{
+                    padding: 0.5rem 1rem;
+
+                    text-align: center;
+                    font-size: 20px;
+
+                    border: 0;
+                    border-radius: 1rem;
+                    background-color: var(--background-elevated-base);
+                }
+                & input:is(:focus, :hover, :valid){
+                    outline: 0;
+                }
+                & input::-webkit-file-upload-button{
+                    cursor: pointer;
+
+                    border: 0;
+                    border-radius: 1rem;
+
+                    padding: 0.5rem 1rem;
+
+                    color: var(--text-base);
+                    background-color: var(--background-elevated-base);
+                    transition: all 100ms ease-in-out;
+                }
+                & input::-webkit-file-upload-button:hover{
+                    background-color: var(--essential-positive);
+                }
+                & button{
+                    padding: 0.5rem 1rem;
+                    margin: 0 auto;
+                    margin-top: 1rem;
+                }
+                & p{
+                    color: var(--essential-subdued);
+                }
+            }
         }
         & article{
             padding: 1rem 2rem;

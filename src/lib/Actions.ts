@@ -31,3 +31,23 @@ export const EasyTryCatch = async (callback: Function) => {
 	}
 	return res;
 };
+
+export const renewTokenRequest = async (URL: string, payload: string) => {
+	type resData = {
+		status: boolean;
+		msg: string;
+		cookie: string;
+	};
+
+	const data: resData = await EasyTryCatch(async () => {
+		const res = await fetch(`${URL}/auth/renew`, {
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: payload,
+		});
+		return await res.json();
+	});
+	return data;
+};

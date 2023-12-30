@@ -2,7 +2,6 @@
 import { validateStoken } from '@/lib/Actions';
 const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
 if (!payload) return Astro.redirect('/');
-
 import MarkDownAdapter from '@/components/MarkDownAdapter.astro';
 import PathAnchor from '@/components/PathAnchor.astro';
 import HomeLayout from '@/layouts/HomeLayout.astro';

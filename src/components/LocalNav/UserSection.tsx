@@ -14,8 +14,8 @@ export default function UserSection({
 		<section id="usersection">
 			<div className="scroll">
 				<UserInfo payload={payload} URL={URL} />
-				<UserRequests />
-				<FriendsList payload={payload} />
+				<UserRequests payload={payload} URL={URL} />
+				<FriendsList payload={payload} URL={URL} />
 			</div>
 		</section>
 	);

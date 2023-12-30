@@ -1,17 +1,84 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { JwtPayload } from 'jsonwebtoken';
 import ReactPathAnchor from '../ReactPathAnchor';
+import ReactPopUp from '../ReactPopUp';
 import type { UserData } from '@/lib/Types';
 
-export default function FriendsList({ payload }: { payload: JwtPayload }) {
-	const [edit, setEdit] = useState(false);
+type resData = {
+	status: boolean;
+	msg: string;
+};
 
+const AddFriendForm = ({
+	URL,
+	payload,
+}: {
+	URL: string;
+	payload: JwtPayload;
+}) => {
+	const [msg, setMsg] = useState({ text: '', color: '' });
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		//@ts-ignore
+		const username = e.target.username.value;
+		fetch(`${URL}/user/request`, {
+			method: 'post',
+			headers: {
+				'Content-type': 'application/json',
+				authorization: JSON.stringify(payload),
+			},
+			body: JSON.stringify({ username: username }),
+		})
+			.then((res) => res.json())
+			.then((data: resData) => {
+				setMsg({
+					text: data.msg,
+					color: data.status
+						? 'var(--essential-positive)'
+						: 'var(--essential-negative)',
+				});
+			});
+	};
+
+	return (
+		<form id="pop" onSubmit={handleSubmit}>
+			<h3>Enter Username</h3>
+			<input required autoComplete="off" type="text" name="username" />
+			<p style={{ color: msg.color }}>{msg.text}</p>
+			<button type="submit">Send</button>
+		</form>
+	);
+};
+
+export default function FriendsList({
+	URL,
+	payload,
+}: {
+	URL: string;
+	payload: JwtPayload;
+}) {
+	const [edit, setEdit] = useState(false);
+	const [friends, setFriends] = useState<UserData[] | null>(null);
+	useEffect(() => {
+		fetch(`${URL}/user/friends`, {
+			method: 'get',
+			headers: {
+				authorization: JSON.stringify(payload),
+			},
+		})
+			.then((res) => res.json())
+			.then((data: { status: boolean; msg: string; friends: UserData[] }) => {
+				if (!data.status) {
+					console.log(data.msg);
+					return;
+				}
+				setFriends(data.friends);
+			});
+	}, []);
 	const Friends =
-		payload.user.friends === null ||
-		payload.user.friends.length === 0 ||
-		typeof payload.user.friends === 'string'
+		friends === null || friends.length === 0 || typeof friends === 'string'
 			? 'no friends yet..' //@ts-ignore
-			: payload.user.friends.map((friend: UserData) => {
+			: friends.map((friend: UserData) => {
 					return (
 						<li>
 							<ReactPathAnchor text={friend.name.toString()}>
@@ -33,14 +100,9 @@ export default function FriendsList({ payload }: { payload: JwtPayload }) {
 		<article>
 			<h3>
 				Friends
-				<button id={edit ? 'red' : ''}>
-					<img
-						src={edit ? '/cancel.svg' : '/add.svg'}
-						width={20}
-						height={20}
-						alt=""
-					/>
-				</button>
+				<ReactPopUp options={{ img: { src: '/add.svg', size: 20 } }}>
+					<AddFriendForm URL={URL} payload={payload} />
+				</ReactPopUp>
 				{Friends !== 'no friends yet..' ? (
 					<button
 						id={edit ? '' : 'blue'}

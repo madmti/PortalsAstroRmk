@@ -20,6 +20,7 @@ const UserNameEditForm = ({
 		e.preventDefault();
 		//@ts-ignore
 		const username = e.target.username.value;
+		if (username === payload.user.name) return;
 		fetch(`${URL}/user/edit`, {
 			method: 'post',
 			headers: {

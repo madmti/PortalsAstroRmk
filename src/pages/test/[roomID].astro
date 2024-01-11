@@ -1,0 +1,21 @@
+---
+export const prerender = false;
+
+import { validateStoken } from '@/lib/Actions';
+const payload = validateStoken(Astro.cookies.get('portals:stoken')?.value);
+const { roomID } = Astro.params;
+if (!payload || !roomID) return Astro.redirect('/');
+import ClientComponent from './ClientComponent';
+import { WEBSOCKET_URL } from '@/public.env';
+---
+
+<main>
+	<p>room: {roomID}</p>
+	<p>user: {payload.user.name}</p>
+	<ClientComponent
+		client:load
+		WEBSOCKET_URL={WEBSOCKET_URL}
+		userID={payload.user._id.toString()}
+		roomID={roomID}
+	/>
+</main>
